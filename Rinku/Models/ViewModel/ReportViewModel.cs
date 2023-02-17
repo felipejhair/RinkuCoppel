@@ -3,6 +3,10 @@ using System.Xml.Linq;
 
 namespace Rinku.Models.ViewModel
 {
+    /// <summary>
+    /// Modelo para la vista que solicita el reporte de la nomina
+    /// contiene validaciones
+    /// </summary>
     public class ReportViewModel
     {
         [Required(ErrorMessage = "ingresa el {0}")]

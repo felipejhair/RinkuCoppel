@@ -4,8 +4,17 @@ using Newtonsoft.Json;
 
 namespace Rinku.Helpers
 {
+    /// <summary>
+    /// Clase de helpers, para facilitar funcionalidades
+    /// </summary>
     public class Helpers
     {
+        /// <summary>
+        /// Funcion para traer elementos del archivo de configuracion
+        /// </summary>
+        /// <param name="environmentName"></param>
+        /// <param name="addUserSecrets"></param>
+        /// <returns></returns>
         public static IConfigurationRoot GetConfiguration(string environmentName = null, bool addUserSecrets = false)
         {
             var builder = new ConfigurationBuilder()
@@ -80,6 +89,12 @@ namespace Rinku.Helpers
             return retWord;
         }
 
+        /// <summary>
+        /// Formateo de letras para quitar simbolos extraos y dejar la palabra
+        /// sanitizada
+        /// </summary>
+        /// <param name="letter"></param>
+        /// <returns></returns>
         public static string FormattedLetter(string letter)
         {
             return letter switch
@@ -135,6 +150,12 @@ namespace Rinku.Helpers
             };
         }
 
+        /// <summary>
+        /// Funcion para guardar logs en caso de presentar errores
+        /// en la pagina
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="ex"></param>
         public static void EventsLog(object obj, Exception ex)
         {
             try

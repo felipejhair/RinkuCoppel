@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Rinku.Helpers
 {
+    /// <summary>
+    /// Helper que añade la funcionalidad de mandar una alerta por medio del
+    /// Action Result, sobreescribiendo la funcionalidad de esta
+    /// </summary>
     public class AlertDecoratorResult : ActionResult
     {
         public IActionResult InnerResult { get; set; }

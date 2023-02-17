@@ -3,6 +3,10 @@ using System.Xml.Linq;
 
 namespace Rinku.Models.ViewModel
 {
+    /// <summary>
+    /// Modelo de vista para el formulario de movimientos, contiene 
+    /// sus respectivas validaciones
+    /// </summary>
     public class MovimientoViewModel
     {
         [Required(ErrorMessage = "ingresa el {0}")]

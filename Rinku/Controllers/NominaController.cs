@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Rinku.Helpers;
 using Rinku.Models.POCO;
 using Rinku.Models.ViewModel;
@@ -6,6 +7,9 @@ using Rinku.Services.Interfaces;
 
 namespace Rinku.Controllers
 {
+    /// <summary>
+    /// Contoler encargado de toda la funcionalidad del proyecto
+    /// </summary>
     public class NominaController : Controller
     {
         private readonly INominaService _nominaService;
@@ -14,6 +18,10 @@ namespace Rinku.Controllers
             _nominaService = nominaService;
         }
 
+        /// <summary>
+        /// Funcion para vista de añadir empleado
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> AddEmploye()
         {
             try
@@ -32,6 +40,11 @@ namespace Rinku.Controllers
 
         }
 
+        /// <summary>
+        /// Funcion para añadir empleado, contiene la logica de negocio y llamada a servicios
+        /// </summary>
+        /// <param name="model">modelo de la vista, contiene el formulario</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddEmploye(EmpleadoViewModel model)
         {
@@ -49,6 +62,11 @@ namespace Rinku.Controllers
             return View(new EmpleadoViewModel()).WithAlert("success", "Se agrego el empleado con exito");
         }
 
+        /// <summary>
+        /// Funcion para traer datos del empleado
+        /// </summary>
+        /// <param name="numero">numero de empleado</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<EmpleadoRol> GetEmpleado(string numero)
         {
@@ -63,11 +81,20 @@ namespace Rinku.Controllers
             }
         }
 
+        /// <summary>
+        /// Funcion para vista de añadir movimiento
+        /// </summary>
+        /// <returns></returns>
         public IActionResult AddMovement()
         {
             return View();
         }
 
+        /// <summary>
+        /// Se encarga de dar de alta el movimiento en la base de datos, llama a los servicos
+        /// </summary>
+        /// <param name="model">modelo de la vista de añadir movimiento</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddMovement(MovimientoViewModel model)
         {
@@ -82,6 +109,13 @@ namespace Rinku.Controllers
             return View(new MovimientoViewModel()).WithAlert("success", "Se agrego el movimiento con exito");
         }
 
+        /// <summary>
+        /// Trae los datos de la nomina (Selecciona Horas trabajadas, pago total por entregas, 
+        /// pago total por bonos, retenciones, vales y sueldo total)
+        /// </summary>
+        /// <param name="numero">numero de empleado</param>
+        /// <param name="mes">mes del cual se sacara la nomina</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<NominaDetalle> GetNomina(string numero, int mes)
         {
@@ -96,16 +130,29 @@ namespace Rinku.Controllers
             }
         }
 
-        public async Task<IActionResult> ViewReport()
+        /// <summary>
+        /// Funcion para la vista de ver el reporte
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult ViewReport()
         {
             return View();
         }
 
+        /// <summary>
+        /// Funcion de la vista para añadir rol
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> AddRol()
         {
             return View();
         }
 
+        /// <summary>
+        /// Post para añadir el rol, llama a la capa de servicio
+        /// </summary>
+        /// <param name="name">Nombre del rol</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddRol(string name)
         {

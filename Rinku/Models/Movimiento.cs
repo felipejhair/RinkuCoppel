@@ -2,6 +2,10 @@
 
 namespace Rinku.Models
 {
+    /// <summary>
+    /// Modelo para los movimientos como apareen en 
+    /// la base de datos
+    /// </summary>
     public class Movimiento
     {
         [JsonPropertyName("id")]

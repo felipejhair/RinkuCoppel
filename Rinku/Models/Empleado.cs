@@ -2,6 +2,9 @@
 
 namespace Rinku.Models
 {
+    /// <summary>
+    /// Modelo para empleado, tal como aparece en base de datos
+    /// </summary>
     public class Empleado
     {
         [JsonPropertyName("id")]

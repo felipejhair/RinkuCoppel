@@ -2,6 +2,10 @@
 
 namespace Rinku.Models.ViewModel
 {
+    /// <summary>
+    /// Modelo para la vista de ingresar empleado, contiene
+    /// validaciones para el formualrio
+    /// </summary>
     public class EmpleadoViewModel
     {
         [Required(ErrorMessage = "ingresa el {0}")]

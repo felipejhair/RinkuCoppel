@@ -4,6 +4,9 @@ using Rinku.Models.ViewModel;
 
 namespace Rinku.Services.Interfaces
 {
+    /// <summary>
+    /// Interface para los metodos del servicio de nomina
+    /// </summary>
     public interface INominaService
     {
         public Task<List<Rol>> GetRols();

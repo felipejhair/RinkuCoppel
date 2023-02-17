@@ -2,6 +2,10 @@
 
 namespace Rinku.Models.POCO
 {
+    /// <summary>
+    /// Modelo que junta toda la informacion solicitada
+    /// en la vista de reportes
+    /// </summary>
     public class NominaDetalle
     {
         [JsonPropertyName("nombreempleado")]

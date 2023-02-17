@@ -3,6 +3,10 @@ using System.Xml.Linq;
 
 namespace Rinku.Models.ViewModel
 {
+    /// <summary>
+    /// Modelo para la vista de añadir rol
+    /// contiene sus respectivas validaciones
+    /// </summary>
     public class RolViewModel
     {
         [Required(ErrorMessage = "ingresa el {0}")]

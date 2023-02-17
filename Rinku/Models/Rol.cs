@@ -1,7 +1,11 @@
-﻿using System.Text.Json.Serialization;
+﻿
+using System.Text.Json.Serialization;
 
 namespace Rinku.Models
 {
+    /// <summary>
+    /// Modelo de Rol, tal como aparece en la base de datos
+    /// </summary>
     public class Rol
     {
         [JsonPropertyName("id")]
