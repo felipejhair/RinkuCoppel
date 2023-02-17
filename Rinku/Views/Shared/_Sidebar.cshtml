@@ -1,0 +1,27 @@
+﻿ <!-- Sidebar -->
+@{
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+}
+<nav id="sidebarMenu"
+     class="collapse d-lg-block sidebar collapse" style="background-color: #324658;">
+    <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3 mt-4">
+            <a asp-action="AddEmploye" asp-controller="Nomina"
+               class="hov-effect list-group-item list-group-item-action py-2 ripple @((actionName == "AddEmploye") ? "active" : "")">
+                <i class="fa-solid fa-user fa-fw me-3"></i><span>Alta empleado</span>
+            </a>
+            <a asp-action="AddMovement" asp-controller="Nomina"
+               class="hov-effect list-group-item list-group-item-action py-2 ripple @((actionName == "AddMovement") ? "active" : "")">
+                <i class="fa-solid fa-truck-ramp-box fa-fw me-3"></i><span>Movimientos</span>
+            </a>
+            <a asp-action="ViewReport" asp-controller="Nomina"
+               class="hov-effect list-group-item list-group-item-action py-2 ripple @((actionName == "ViewReport") ? "active" : "")">
+                <i class="fa-solid fa-file fa-fw me-3"></i><span>Consulta nomina</span>
+            </a>
+            <a asp-action="AddRol" asp-controller="Nomina"
+               class="hov-effect list-group-item list-group-item-action py-2 ripple @((actionName == "AddRol") ? "active" : "")">
+                <i class="fa-solid fa-dice-d6 fa-fw me-3"></i><span>Alta rol</span>
+            </a>
+        </div>
+    </div>
+</nav>

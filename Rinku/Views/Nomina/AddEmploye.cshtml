@@ -1,0 +1,38 @@
+﻿@model Rinku.Models.ViewModel.EmpleadoViewModel
+@{
+    var roles = (List<Rol>)ViewBag.Roles;
+    ViewData["Title"] = "Añadir empleado";
+}
+
+<section class="mb-4 mb-4 mx-md-5 px-md-5">
+    <div class="card">
+        <div class="p-3 p-md-5">
+            <h1>Añadir empleado</h1>
+            <hr />
+            <form method="post" asp-controller="Nomina" asp-action="AddEmploye">
+                <div class="row">
+                    <div class="mb-4 col-md-6">
+                        <input asp-for="Numero" class="form-control" type="text" placeholder="Numero" name="Numero" />
+                    </div>
+                    <div class="mb-4 col-md-6">
+                        <input asp-for="Name" class="form-control" type="text" placeholder="Nombre" name="Name" />
+                    </div>
+                    <div class="mb-4">
+                        <select asp-for="RolId" class="form-control">
+                            <option value="">Selecciona un rol</option>
+                            @foreach(var items in roles)
+                            {
+                                <option value="@items.Id">@items.Nombre</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-info btn-block w-25">Agregar</button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        
+    </div>
+</section>
