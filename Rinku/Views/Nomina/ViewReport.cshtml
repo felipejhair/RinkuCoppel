@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Rinku.Models.ViewModel.ReportViewModel;
+@{
     ViewData["Title"] = "Reporte de Nomina";
 }
 
@@ -8,7 +9,11 @@
             <h1>Reporte</h1>
             <hr />
             <div class="mb-4 col-md-6">
-                <select class="form-control">
+                <input asp-for="Numero" class="form-control" type="text" placeholder="Numero empleado" name="Numero" id="numero_emp" />
+                <span asp-validation-for="Numero" class="text-danger" id="val_num"></span>
+            </div>
+            <div class="mb-4 col-md-6">
+                <select class="form-control" id="mes" asp-for="Mes">
                     <option value="">Selecciona un mes</option>
                     <option value="1">Enero</option>
                     <option value="2">Febrero</option>
@@ -23,11 +28,125 @@
                     <option value="12">Noviembre</option>
                     <option value="13">Diciembre</option>
                 </select>
+                <span asp-validation-for="Mes" class="text-danger" id="val_mes"></span>
             </div>
             <div>
-                <button class="btn btn-info btn-block w-25">Buscar</button>
+                <button class="btn btn-info btn-block w-25" onclick="buscarNomina()">Buscar</button>
             </div>
         </div>
 
     </div>
 </section>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Reporte Ingresos/Deducciones</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="HideModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="table_nom">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="HideModal();">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function HideModal(){
+        $("#exampleModalCenter").modal("hide");
+    }
+
+    function buscarNomina(){
+        var numero = $("#numero_emp").val();
+        var mes = $("#mes").val();
+
+        if (numero == "") $("#val_num").text("Por favor ingrese un número"); else $("#val_num").text("");
+        if (mes == "") $("#val_mes").text("Por favor ingrese un mes"); else $("#val_mes").text("");
+
+        if(numero != "" && mes != ""){
+            $.ajax({
+                url: '/Nomina/GetNomina',
+                type: 'get',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: {
+                    numero: numero,
+                    mes: mes
+                },
+                success: function (data) {
+                    $("#tabla_principal").remove();
+
+                    if (data.nombreempleado != null) {
+                        $("#table_nom").append('<div id="tabla_principal">' +
+                            '<div class="p-3">' +
+                            '<p><b>Nombre: </b>' + data.nombreempleado + '</p>' +
+                            '<p><b>Rol: </b>' + data.rolname + '</p>' +
+                            '<p><b>Bono Adicional: </b>' + data.bonoadicional + '</p>' +
+                            '<p><b>Numero de entregas: </b>' + data.entregas + '</p>' +
+                            '<p><b>Horas Trabajadas: </b>' + data.horastrabajadas + '</p>' +
+                            '</div>' +
+                            '<table class="table table-striped" >' +
+                            '<thead style="background: cadetblue;">' +
+                            '<tr>' +
+                            '<th scope="col">Concepto</th>' +
+                            '<th scope="col">Valor</th>' +
+                            '</tr>' +
+                            '</thead>' +
+                            '<tbody>' +
+                            '<tr>' +
+                            '<th scope="row">Sueldo mensual bruto</th>' +
+                            '<td>' + data.sueldo + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<tr>' +
+                            '<th scope="row">Pago de bonos</th>' +
+                            '<td>' + data.pagobonos + '</td>' +
+                            '</tr>' +
+                            '<th scope="row">Pago de entregas</th>' +
+                            '<td>' + data.pagoentregas + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<th scope="row">Vales</th>' +
+                            '<td>' + data.vales + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<th scope="row">Total</th>' +
+                            '<td>' + data.total + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<th scope="row">Deducciones</th>' +
+                            '<td>' + data.retenciones + '</td>' +
+                            '</tr>' +
+                            '<tr style="background: cadetblue;color:white;">' +
+                            '<th scope="row">Total con deducciones</th>' +
+                            '<td>' + data.totalconimpuestos + '</td>' +
+                            '</tr>' +
+                            '</tbody>' +
+                            '</table><div>');
+                    }
+                    else {
+                        $("#table_nom").append("<div id='tabla_principal'><b>No se encontraron datos</b></div>");
+                    }
+
+                    $("#exampleModalCenter").modal("show");
+                    console.log(data);
+                },
+                error: function (error) {
+                    alert("No se encontro el numero de empleado");
+                }
+            });
+        }
+        
+    }
+</script>

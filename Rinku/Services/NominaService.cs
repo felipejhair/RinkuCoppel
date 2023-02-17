@@ -66,7 +66,32 @@ namespace Rinku.Services
             return empleado;
         }
 
-        public async Task<int> InsertEmpleado(EmpleadoViewModel model)
+        public async Task<NominaDetalle> GetNomina(string numero, int mes)
+        {
+            NominaDetalle nomina = new();
+            DataTable dtNomina = new();
+
+            List<SqlParameter> parameters = new();
+
+            parameters.Clear();
+            parameters.Add(new SqlParameter("@_Mes", mes));
+            parameters.Add(new SqlParameter("@_NumeroEmpleado", numero));
+
+            dtNomina = await _sqlServer.ExecuteDataTableAsync("[dbo].[SelectNominaMes]", parameters, CommandType.StoredProcedure);
+
+            if (dtNomina != null)
+            {
+                if (dtNomina.Rows.Count != 0)
+                {
+                    string jsonNomina = Helpers.Helpers.DtToJson(dtNomina, true);
+                    nomina = JsonSerializer.Deserialize<NominaDetalle>(jsonNomina);
+                }
+            }
+
+            return nomina;
+        }
+
+        public async Task<decimal> InsertEmpleado(EmpleadoViewModel model)
         {
             List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -77,7 +102,46 @@ namespace Rinku.Services
 
             var result = await _sqlServer.ExecuteScalarAsync("[dbo].[AddEmpleado]", parameters, CommandType.StoredProcedure);
 
-            return 1;
+            return Convert.ToDecimal(result);
+        }
+
+        public async Task<decimal> InsertMovimiento (MovimientoViewModel model)
+        {
+            List<SqlParameter> parameters = new();
+
+            parameters.Clear();
+            parameters.Add(new SqlParameter("@_Numero", model.Numero));
+            parameters.Add(new SqlParameter("@_NumeroEmpleado", model.NombreEmpleado));
+            parameters.Add(new SqlParameter("@_NombreRol", model.NombreRol));
+            parameters.Add(new SqlParameter("@_Mes", model.Mes));
+            parameters.Add(new SqlParameter("@_Entregas", model.Entregas));
+
+            var result = await _sqlServer.ExecuteScalarAsync("[dbo].[InsertMovimiento]", parameters, CommandType.StoredProcedure);
+
+            return Convert.ToDecimal(result);
+        }
+
+        public async Task<int> GetLastId()
+        {
+            List<SqlParameter> parameters = new();
+
+            parameters.Clear();
+
+            var result = await _sqlServer.ExecuteScalarAsync("[dbo].[SelectLastIdEmpleados]", parameters, CommandType.StoredProcedure);
+
+            return Convert.ToInt32(result);
+        }
+
+        public async Task<decimal> InsertRol(string name)
+        {
+            List<SqlParameter> parameters = new();
+
+            parameters.Clear();
+            parameters.Add(new SqlParameter("@_Nombre", name));
+
+            var result = await _sqlServer.ExecuteScalarAsync("[dbo].[InsertarRol]", parameters, CommandType.StoredProcedure);
+
+            return Convert.ToInt32(result);
         }
     }
 }

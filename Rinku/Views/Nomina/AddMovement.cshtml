@@ -1,25 +1,30 @@
-﻿@{
+﻿@model Rinku.Models.ViewModel.MovimientoViewModel;
+@{
     ViewData["Title"] = "Añadir Movimiento";
 }
 
 <section class="mb-4 mb-4 mx-md-5 px-md-5">
+    <partial name="_Alert" />
     <div class="card">
         <div class="p-3 p-md-5">
             <h1>Añadir Movimiento</h1>
             <hr />
-            <form>
+            <form asp-controller="Nomina" asp-action="AddMovement" method="post">
                 <div class="row">
                     <div class="mb-4 col-md-6">
-                        <input class="form-control" type="text" placeholder="Numero" name="numero_emp" onkeyup="searchUser()" id="numero_emp"/>
+                        <input asp-for="Numero" class="form-control" type="text" placeholder="Numero" name="Numero" onkeyup="searchUser()" id="numero_emp" />
+                        <span asp-validation-for="Numero" class="text-danger"></span>
                     </div>
                     <div class="mb-4 col-md-6">
-                        <input class="form-control" type="text" placeholder="Nombre" name="nombre_emp" id="nombre_emp" readonly />
+                        <input asp-for="NombreEmpleado" class="form-control disabled" type="text" placeholder="Nombre" name="NombreEmpleado" id="nombre_emp" readonly/>
+                        <span asp-validation-for="NombreEmpleado" class="text-danger"></span>
                     </div>
                     <div class="mb-4 col-md-6">
-                        <input class="form-control" type="text" placeholder="Rol" name="rol_emp" id="rol_emp" readonly />
+                        <input asp-for="NombreRol" class="form-control disabled" type="text" placeholder="Rol" name="NombreRol" id="rol_emp" readonly/>
+                        <span asp-validation-for="NombreRol" class="text-danger"></span>
                     </div>
                     <div class="mb-4 col-md-6">
-                        <select class="form-control" id="">
+                        <select asp-for="Mes" class="form-control" name="Mes">
                             <option value="">Selecciona un mes</option>
                             <option value="1">Enero</option>
                             <option value="2">Febrero</option>
@@ -34,9 +39,12 @@
                             <option value="12">Noviembre</option>
                             <option value="13">Diciembre</option>
                         </select>
+                        <span asp-validation-for="Mes" class="text-danger"></span>
                     </div>
                         <div class="mb-4 col-md-6">
-                            <input class="form-control" type="text" placeholder="Cantidad de entregas" name="entregas" />
+                            <input asp-for="Entregas" class="form-control" type="number" placeholder="Cantidad de entregas" name="Entregas" />
+                             <span asp-validation-for="Entregas" class="text-danger"></span>
+
                         </div>
                     <div>
                         <button class="btn btn-info btn-block w-25">Agregar</button>
@@ -48,6 +56,7 @@
 
     </div>
 </section>
+
 <script>
     function searchUser(){
         var numero = $("#numero_emp").val();
@@ -62,13 +71,23 @@
                 numero: numero
             },
             success: function (data){
-                console.log(data);
+                    $("#nombre_emp").val(data.name);
+                    $("#rol_emp").val(data.nombre);
             },
             error: function (error){
                 console.log(error);
             }
         });
+        } else {
+            $("#nombre_emp").val("");
+            $("#rol_emp").val("");
         }
         
     }
 </script>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
